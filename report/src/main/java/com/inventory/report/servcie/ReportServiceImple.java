@@ -2,8 +2,10 @@ package com.inventory.report.servcie;
 
 import com.inventory.report.dto.ReportProductList;
 import com.inventory.report.dto.ReportProductPage;
+import com.inventory.report.dto.ReportPurchaseResponse;
 import com.inventory.report.dto.ReportSaleDateResponse;
 import com.inventory.sharedfiles.ProductResponsePage;
+import com.inventory.sharedfiles.PurchaseResponse;
 import com.inventory.sharedfiles.SaleReportResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class ReportServiceImple implements  ReportServcie{
 
     @Autowired
     FromSalesService fromSalesService;
+
+    @Autowired
+    FromPurchaseService fromPurchaseService;
 
     @Override
     public ReportProductPage getStocks(Long pageNumber, Long pageSize, String sortBy, String sortDir) {
@@ -68,6 +73,22 @@ public class ReportServiceImple implements  ReportServcie{
         }
         r.setTotalSalesAmount(total);
         return r;
+    }
+
+    @Override
+    public ReportPurchaseResponse getPurchases() {
+        List<PurchaseResponse> p =  fromPurchaseService.getAll().getBody();
+        Double total = 0.;
+        for(PurchaseResponse pr : p)
+        {
+            total+= pr.getTotalPrice() == null
+                    ? 0
+                    : pr.getTotalPrice();
+        }
+        ReportPurchaseResponse rpr = new ReportPurchaseResponse();
+        rpr.setPurchaseResponse(p);
+        rpr.setTotalPurchases(total);
+        return rpr;
     }
 
 }

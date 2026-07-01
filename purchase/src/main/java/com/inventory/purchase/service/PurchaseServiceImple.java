@@ -1,9 +1,9 @@
 package com.inventory.purchase.service;
 
 import com.inventory.purchase.dto.PurchaseItemRequest;
-import com.inventory.purchase.dto.PurchaseItemsResponse;
+import com.inventory.sharedfiles.PurchaseItemsResponse;
 import com.inventory.purchase.dto.PurchaseRequest;
-import com.inventory.purchase.dto.PurchaseResponse;
+import com.inventory.sharedfiles.PurchaseResponse;
 import com.inventory.purchase.exception.ResourceNotFoundException;
 import com.inventory.purchase.model.Purchase;
 import com.inventory.purchase.model.PurchaseItems;
@@ -13,10 +13,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.module.ResolutionException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class PurchaseServiceImple implements  PurchaseService{
@@ -42,23 +40,25 @@ public class PurchaseServiceImple implements  PurchaseService{
         List<PurchaseItemRequest> itemRequestList = request.getItem();
         List<PurchaseItems> items = itemRequestList.stream()
                 .map(item-> {
-                    PurchaseItems p = modelMapper.map(item,PurchaseItems.class);
-                    System.out.println(p.toString());
-                    System.out.println("ID = " + p.getId());
-                    System.out.println("ProductID = " + p.getProductId());
-                    p.setId(null);
+                    PurchaseItems p = new PurchaseItems();
+                    p.setProductId(item.getProductId());
+                    p.setQuantity(item.getQuantity());
+                    p.setProductPrice(item.getProductPrice());
                     p.setPurchase(purchase);
                     return p;
                 }).toList();
 
         Double totalPrice = 0.;
         Long totalQuantity = 0L;
-        for(int i = 0;i< items.size();i++)
-        {
-            totalPrice+=items.get(i).getProductPrice();
-            totalQuantity+=items.get(i).getQuantity();
-            fromProduct.updateProductByPurchase(items.get(i).getProductId(),items.get(i).getQuantity());
+        for (PurchaseItems item : items) {
 
+            totalPrice += item.getProductPrice() * item.getQuantity();
+            totalQuantity += item.getQuantity();
+
+            fromProduct.updateProductByPurchase(
+                    item.getProductId(),
+                    item.getQuantity()
+            );
         }
         purchase.setTotalPrice(totalPrice);
         purchase.setQuantity(totalQuantity);

@@ -1,6 +1,5 @@
-package com.inventory.purchase.dto;
+package com.inventory.sharedfiles;
 
-import com.inventory.purchase.model.PurchaseItems;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

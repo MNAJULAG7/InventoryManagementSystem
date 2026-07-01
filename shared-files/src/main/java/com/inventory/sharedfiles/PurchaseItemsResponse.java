@@ -1,4 +1,4 @@
-package com.inventory.purchase.dto;
+package com.inventory.sharedfiles;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

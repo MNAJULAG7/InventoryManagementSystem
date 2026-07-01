@@ -1,7 +1,7 @@
 package com.inventory.purchase.service;
 
 import com.inventory.purchase.dto.PurchaseRequest;
-import com.inventory.purchase.dto.PurchaseResponse;
+import com.inventory.sharedfiles.PurchaseResponse;
 
 import java.util.List;
 

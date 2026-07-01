@@ -1,7 +1,7 @@
 package com.inventory.purchase.controller;
 
 import com.inventory.purchase.dto.PurchaseRequest;
-import com.inventory.purchase.dto.PurchaseResponse;
+import com.inventory.sharedfiles.PurchaseResponse;
 import com.inventory.purchase.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

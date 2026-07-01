@@ -1,9 +1,11 @@
 package com.inventory.report.controller;
 
 import com.inventory.report.dto.ReportProductPage;
+import com.inventory.report.dto.ReportPurchaseResponse;
 import com.inventory.report.dto.ReportSaleDateResponse;
 import com.inventory.report.servcie.ReportServcie;
 import com.inventory.sharedfiles.AppConstants;
+import com.inventory.sharedfiles.PurchaseResponse;
 import com.inventory.sharedfiles.SaleReportResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,5 +44,11 @@ public class ReportController {
     public ResponseEntity<ReportSaleDateResponse> getSaleDate(@RequestParam("start")LocalDate start, @RequestParam("end") LocalDate end)
     {
         return ResponseEntity.ok().body(reportServcie.getSaleDate(start,end));
+    }
+
+    @GetMapping("/purchases")
+    public ResponseEntity<ReportPurchaseResponse> getPurchases()
+    {
+        return ResponseEntity.ok().body(reportServcie.getPurchases());
     }
 }

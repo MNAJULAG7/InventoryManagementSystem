@@ -1,7 +1,9 @@
 package com.inventory.report.servcie;
 
 import com.inventory.report.dto.ReportProductPage;
+import com.inventory.report.dto.ReportPurchaseResponse;
 import com.inventory.report.dto.ReportSaleDateResponse;
+import com.inventory.sharedfiles.PurchaseResponse;
 import com.inventory.sharedfiles.SaleReportResponse;
 
 import java.time.LocalDate;
@@ -13,4 +15,6 @@ public interface ReportServcie {
     List<SaleReportResponse> getSales();
 
     ReportSaleDateResponse getSaleDate(LocalDate start, LocalDate end);
+
+    ReportPurchaseResponse getPurchases();
 }
