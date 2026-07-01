@@ -35,3 +35,7 @@ spring:
           uri: lb://INVENTORY
           predicates:
             - Path=/api/inventory/**
+        - id: REPORT
+          uri: lb://REPORT
+          predicates:
+            - Path=/api/report/**
