@@ -9,6 +9,7 @@ import com.inventory.sales.model.Sale;
 import com.inventory.sales.model.SalesItems;
 import com.inventory.sales.repo.SaleRepo;
 import com.inventory.sales.repo.SalesItemRepo;
+import com.inventory.sharedfiles.SaleReportResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -112,5 +113,23 @@ public class SalesSerivceImple implements SalesSerivce{
         SaleResponse sr = modelMapper.map(sale,SaleResponse.class);
         sr.setSalesItemsResponses(str);
         return sr;
+    }
+
+    @Override
+    public List<SaleReportResponse> getSaleForReport() {
+        List<Sale> sale = saleRepo.findAll();
+        List<SaleReportResponse> r = sale.stream()
+                .map(s->modelMapper.map(s,SaleReportResponse.class))
+                .toList();
+        return r;
+    }
+
+    @Override
+    public List<SaleReportResponse> getSaleBetweendatesForReport(LocalDate start, LocalDate end) {
+        List<Sale> sale = saleRepo.findBySaleDateBetween(start,end);
+        List<SaleReportResponse> r = sale.stream()
+                .map(s->modelMapper.map(s,SaleReportResponse.class))
+                .toList();
+        return r;
     }
 }

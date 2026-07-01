@@ -2,11 +2,14 @@ package com.inventory.report.servcie;
 
 import com.inventory.report.dto.ReportProductList;
 import com.inventory.report.dto.ReportProductPage;
+import com.inventory.report.dto.ReportSaleDateResponse;
 import com.inventory.sharedfiles.ProductResponsePage;
+import com.inventory.sharedfiles.SaleReportResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -17,6 +20,9 @@ public class ReportServiceImple implements  ReportServcie{
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    FromSalesService fromSalesService;
 
     @Override
     public ReportProductPage getStocks(Long pageNumber, Long pageSize, String sortBy, String sortDir) {
@@ -39,4 +45,29 @@ public class ReportServiceImple implements  ReportServcie{
 
         return res;
     }
+
+    @Override
+    public List<SaleReportResponse> getSales() {
+        List<SaleReportResponse> s = fromSalesService.getSaleForReport().getBody();
+        return s;
+    }
+
+    @Override
+    public ReportSaleDateResponse getSaleDate(LocalDate start, LocalDate end) {
+        List<SaleReportResponse> s = fromSalesService.getSaleBetweendatesForReport(start,end).getBody();
+        ReportSaleDateResponse r = new ReportSaleDateResponse();
+        r.setStartDate(start);
+        r.setEndDate(end);
+        r.setSaleReportResponseList(s);
+
+        Double total = 0.;
+
+        for(SaleReportResponse sale: s)
+        {
+            total+=sale.getTotalPrice();
+        }
+        r.setTotalSalesAmount(total);
+        return r;
+    }
+
 }
