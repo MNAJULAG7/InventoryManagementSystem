@@ -19,44 +19,58 @@ spring:
           uri: lb://PRODUCT
           predicates:
             - Path=/api/products/**,/api/category/**
-          filters:
-            - SetPath=/v3/api-docs
+#          filters:
+#            - SetPath=/v3/api-docs
 
         - id: supplier
           uri: lb://SUPPLIER
           predicates:
             - Path=/api/suppliers/**
-          filters:
-            - SetPath=/v3/api-docs
+#          filters:
+#            - SetPath=/v3/api-docs
 
         - id: purchase
           uri: lb://PURCHASE
           predicates:
             - Path=/api/purchases/**
-          filters:
-            - SetPath=/v3/api-docs
+#          filters:
+#            - SetPath=/v3/api-docs
 
 
         - id: sales
           uri: lb://SALES
           predicates:
             - Path=/api/sales/**
-          filters:
-            - SetPath=/v3/api-docs
+#          filters:
+#            - SetPath=/v3/api-docs
 
         - id: inventory
           uri: lb://INVENTORY
           predicates:
             - Path=/api/inventory/**
-          filters:
-            - SetPath=/v3/api-docs
+#          filters:
+#            - SetPath=/v3/api-docs
 
         - id: REPORT
           uri: lb://REPORT
           predicates:
             - Path=/api/report/**
-          filters:
-            - SetPath=/v3/api-docs
+#          filters:
+#            - SetPath=/v3/api-docs
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:5173"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
 
 springdoc:
   api-docs:
